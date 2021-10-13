@@ -12,6 +12,38 @@ const config = {
   measurementId: "G-26KV6T0J2W",
 };
 
+//QueryReference and QuerySnapshot
+
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+  if (!userAuth) return;
+
+  //send the user signed in to the database
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+
+  //get the data from the database which have the same id
+  const snapShot = await userRef.get();
+
+  //if the user signed in is not existed in the database -> create a new one
+  if (!snapShot.exists) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+    console.log(snapShot);
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...additionalData,
+      });
+    } catch (error) {
+      console.log("error creating user", error.message);
+    }
+  }
+
+  return userRef;
+  //this function would be imported by the app.js for getting user
+};
+
 firebase.initializeApp(config);
 
 //Google authentication credentials
