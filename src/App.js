@@ -1,6 +1,6 @@
 import "./App.css";
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import HomePage from "./pages/homepage/homepage.component";
@@ -44,12 +44,21 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/shop" component={ShopPage} />
-          <Route path="/signin" component={SignInSignUp} />
+          <Route
+            path="/signin"
+            render={() =>
+              this.props.currentUser ? <Redirect to="/" /> : <SignInSignUp />
+            }
+          />
         </Switch>
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  currentUser: state.user.currentUser,
+});
 
 //connect to the rootReducer/userReducer to change the user data (on the app only, not database)
 //from null to "have someone logged in"
@@ -58,4 +67,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 //conect is Higher-Order-Component (getFromReducer, sendToReducer)(The Current Component)
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
