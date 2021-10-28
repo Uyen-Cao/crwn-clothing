@@ -14,7 +14,6 @@ import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 
 import { setCurrentUser } from "./redux/user/user.actions";
 import { selectCurrentUser } from "./redux/user/user.selectors";
-
 class App extends React.Component {
   //this one is to use for the case when there is no one signed in on the app
   unsubscribeFromAuth = null;
@@ -34,6 +33,7 @@ class App extends React.Component {
           });
         });
       }
+      setCurrentUser(userAuth);
     });
   }
 
