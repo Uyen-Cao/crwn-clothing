@@ -13,7 +13,7 @@ import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 
 import { selectCartHidden } from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
-import { signOutUser } from "../../redux/user/user.actions";
+import { signOutStart } from "../../redux/user/user.actions";
 
 import {
   HeaderContainer,
@@ -55,7 +55,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  signOut: () => dispatch(signOutUser()),
+  signOut: () => dispatch(signOutStart()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
